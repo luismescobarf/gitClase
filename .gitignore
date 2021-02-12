@@ -16,3 +16,7 @@
 
 # Ejemplo para ignorar un archivo
 #codigoFuente.go
+
+#Evitar carpeta extensiones vscode
+.metals/
+.vscode/
