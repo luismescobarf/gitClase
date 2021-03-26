@@ -16,3 +16,8 @@
 
 # Ejemplo para ignorar un archivo
 #codigoFuente.go
+
+#Evitar librerías de vscode
+.vscode/
+#Evitar metals, plugin para golang en vscode
+.metals/
