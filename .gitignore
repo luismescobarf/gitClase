@@ -21,3 +21,6 @@
 .vscode/
 #Evitar metals, plugin para golang en vscode
 .metals/
+
+#Evitar cache scrapper
+ejemplosCanales/coursera_cache/
