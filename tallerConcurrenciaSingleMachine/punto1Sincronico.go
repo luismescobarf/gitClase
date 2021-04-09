@@ -2,25 +2,31 @@ package main
 
 import "fmt"
 
-func proceso1(x int, y int, p1_ex chan<- int, p1_ey chan<- int, p1_rx <-chan int, p1_ry <-chan int) {
+func proceso1(x int, y int, p12_x chan<- int, p12_y chan<- int, p21_x <-chan int, p21_y <-chan int) {
 
 	for {
+
+		fmt.Println("Proceso 1 Trabajando!")
 
 		if y != 0 {
 
 			//Envío sincrónico
-			p1_ex <- x
-			p1_ey <- y
+			p12_x <- x
+			p12_y <- y
+
+			fmt.Println("Envío realizado 1 !")
 
 			//Recepción sincrónica
-			y = <-p1_rx
-			x = <-p1_ry
+			y = <-p21_x
+			x = <-p21_y
+
+			fmt.Println("Recepción realizada 1 !")
 
 		} else {
 
 			fmt.Println("El GCD es -> ", x)
-			close(p1_ex)
-			close(p1_ey)
+			close(p12_x)
+			close(p12_y)
 			break
 
 		}
@@ -29,26 +35,32 @@ func proceso1(x int, y int, p1_ex chan<- int, p1_ey chan<- int, p1_rx <-chan int
 
 }
 
-func proceso2(p2_ex chan<- int, p2_ey chan<- int, p2_rx <-chan int, p2_ry <-chan int) {
+func proceso2(p21_x chan<- int, p21_y chan<- int, p12_x <-chan int, p12_y <-chan int) {
 
 	var u, v, a int
 
 	for {
 
+		fmt.Println("****** 2 Trabajando!")
+
 		//Recepción sincrónica
-		u = <-p2_rx
-		v = <-p2_ry
+		u = <-p12_x
+		v = <-p12_y
 
-		//Revisar criterio de parada de la goroutine
-		if u > 0 && v == 0 {
+		fmt.Println("Recibido en 2: u=", u, "v=", v)
 
-			//Cierro canales de envío
-			close(p2_ex)
-			close(p2_ey)
+		/*
+			//Revisar criterio de parada de la goroutine
+			if u > 0 && v == 0 {
 
-			//Terminar bucle de la goroutine
-			break
-		}
+				//Cierro canales de envío
+				close(p2_ex)
+				close(p2_ey)
+
+				//Terminar bucle de la goroutine
+				break
+			}
+		*/
 
 		a = u
 
@@ -61,9 +73,13 @@ func proceso2(p2_ex chan<- int, p2_ey chan<- int, p2_rx <-chan int, p2_ry <-chan
 				u = a
 			}
 
+			fmt.Println("P2 Enviando!!")
+
 			//Envío sincrónico
-			p2_ey <- u
-			p2_ex <- v
+			p21_y <- u
+			p21_x <- v
+
+			fmt.Println("P2 Finaliza envío!!")
 
 		}
 
@@ -106,5 +122,8 @@ func main() {
 
 	//Lanzamiento del proceso 2
 	go proceso2(p21_x, p21_y, p12_x, p12_y)
+
+	var parar string
+	fmt.Scan(&parar)
 
 }
