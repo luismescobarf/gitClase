@@ -5,7 +5,6 @@ package main
 import (
 	"fmt"
 	"sync"
-
 	"time"
 )
 
@@ -39,6 +38,8 @@ func mayorFila(fila [3]int, mayores *[3]int, numFila int) {
 
 	defer wg.Done()
 
+	time.Sleep(1 * time.Second)
+
 	var mayorFila int
 
 	for j := 0; j < 3; j++ {
@@ -59,7 +60,7 @@ func mayorFila(fila [3]int, mayores *[3]int, numFila int) {
 
 }
 
-func mostrarMayor() {
+func mostrarMayorDistribuido() {
 
 	var mayores [3]int
 
@@ -73,8 +74,30 @@ func mostrarMayor() {
 
 	for i := 0; i < 3; i++ {
 
+		time.Sleep(1 * time.Second)
+
 		if mayores[i] > aux {
 			aux = mayores[i]
+		}
+
+	}
+
+}
+
+func mostrarMayor() {
+
+	for i := 0; i < 3; i++ {
+
+		time.Sleep(1 * time.Second)
+
+		for j := 0; j < 3; j++ {
+
+			if matriz[i][j] > aux {
+
+				aux = matriz[i][j]
+
+			}
+
 		}
 
 	}
@@ -106,6 +129,28 @@ func main() {
 	diff := fin.Sub(inicio)
 
 	fmt.Println("Tiempo de ejecución: ")
+
+	fmt.Println(diff)
+
+	inicio = time.Now()
+
+	// fmt.Println(inicio.Second())
+
+	aux = 0
+
+	mostrarMayorDistribuido()
+
+	fmt.Println("El número mayor es: ")
+
+	fmt.Println(aux)
+
+	fin = time.Now()
+
+	// fmt.Println(fin.Second())
+
+	diff = fin.Sub(inicio)
+
+	fmt.Println("Tiempo de ejecución distribuido: ")
 
 	fmt.Println(diff)
 
