@@ -19,6 +19,14 @@ func main() {
 
 	dobles := make(chan int)
 	triples := make(chan int)
+	var cancela chan struct{} //Señal cancelación, token (semáforos de conteo)
+
+	go func() {
+		fmt.Println("Rutina de cancelación iniciada!")
+		time.Sleep(3 * time.Second)
+		cancela = make(chan struct{})
+		cancela <- struct{}{}
+	}()
 
 	//Generar información
 	go func() {
@@ -44,6 +52,9 @@ lecturaMain:
 	for {
 
 		select {
+		case <-cancela:
+			fmt.Println("Cancelado por señal!!!!")
+			break lecturaMain
 		case i, ok := <-dobles:
 			if !ok {
 				break lecturaMain
