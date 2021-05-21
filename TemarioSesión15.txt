@@ -3,6 +3,14 @@ Temas Sesión de Cierre Sistemas Distribuídos
 *(1) TCP -> Servidor, cliente
 *(2) Remote Procedure Call -> Utilizando TCP se ejecuta código 
 	en una máquina externa. (A) <-> (B) --> gRPC (Neutro LP)
-	->Aplicación CRUD: Create Read Update Delete
+	->Aplicación CRUD: Create Read Update Delete -> RPC
+	
+	Lineamientos para RPC:
+	a) Funciones deben ascender a Métodos (receivers)
+	b) Deben retornar un objeto tipo error
+	c) Los argumentos de los métodos deben ser siempre dos:
+		1 - Entrada de la función
+		2 - Salida (debe ser apuntador)
+	
 (3) Race Detector -> Detección de condiciones de carrera
 
