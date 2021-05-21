@@ -1,0 +1,6 @@
+Temas Sesión de Cierre Sistemas Distribuídos
+--------------------------------------------
+*(1) TCP -> Servidor, cliente
+*(2) Race Detector -> Detección de condiciones de carrera
+(3) Remote Procedure Call -> Utilizando TCP se ejecuta código 
+	en una máquina externa. (A) <-> (B)
